@@ -72,6 +72,11 @@ EDIT_SLEEP = 1
 EDIT_TIMES = 34
 
 
+#sleep how many times after each edit in 'wnames' 
+EDIT_SLEEP = 1
+#edit how many times in 'wnames' 
+EDIT_TIMES = 39
+
 
 kill_you = [
             "Ｆｉｉｉｉｉｒｅ",
@@ -269,6 +274,49 @@ loveu_you = [
         "i Love You❤",
 ]
 
+
+wnames_show = [
+              "Bulma",
+              "Emilia",
+              "Saber",
+              "Balsa",",
+              "Sun Seto",
+              "Megumi Tadokoro",
+              "Umiko Ahagon",
+              "Mirajane Strauss",
+              "Jeanne D’Arc",
+              "Nao Tomori",
+              "Lucy Heartfilia",
+              "Uryuu Minene
+              "Ginshuu",
+              "Rem",
+              "Rukia Kuchiki",
+              "Eru Chitanda",
+              "Ochako Uraraka",
+              "Alice Nakiri",
+              "Teletha Testarossa",
+              "Ursula Callistis",
+              "Sheele",
+              "Holo The Wise Wolf",
+              "Mikoto Misaka",
+              "Karen Tendou",
+              "Minori Kushieda",
+              "Mikasa",
+              "Asuna Yuuki",
+              "Erza Scarlet",
+              "Raphtalia",
+              "Kasumigaoka Utaha",
+              "Kyoka Jiro",
+              "Urd",
+              "Maki Oze",
+              "Kyoko Mogami",
+              "Belldandy",
+              "Hime Onizuka",
+              "Hinata Hyuga",
+              "Yoruichi Shihouin",
+              "Last One iz ☀️Chizuru Mizuhara☀️😄🖤",
+]
+
 @user_admin
 @run_async
 def blockanimation(update: Update, context: CallbackContext):
@@ -386,6 +434,16 @@ def loveu(update: Update, context: CallbackContext):
         time.sleep(EDIT_SLEEP)
     msg.edit_text('i Love You❤')
 
+@user_admin
+@run_async
+def wnames(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
+    msg = update.effective_message.reply_text('Bulma') 
+    for x in range(EDIT_TIMES):
+        msg.edit_text(wnames_show[x%39])
+        time.sleep(EDIT_SLEEP)
+    msg.edit_text('Last One iz ☀️Chizuru Mizuhara☀️😄🖤')
+
 
 @user_admin
 @run_async
@@ -402,7 +460,9 @@ __help__ = """
 - /loveu ❤
 - /hack 👨‍💻
 - /bombs 💣
+- /wnames 😄🖤
 """
+WNAMES_HANDLER = DisableAbleCommandHandler("wnames",wnames)
 LOVEU_HANDLER = DisableAbleCommandHandler("loveu",loveu)
 KILL_HANDLER = DisableAbleCommandHandler("kill",kill)
 LOVE_HANDLER = DisableAbleCommandHandler("love", love)
@@ -412,6 +472,7 @@ MOONANIMATION_HANDLER =DisableAbleCommandHandler("moon",moonanimation)
 CLOCKANIMATION_HANDLER =DisableAbleCommandHandler("clock",clockanimation)
 BLOCKANIMATION_HANDLER =DisableAbleCommandHandler("block",blockanimation)
 EARTHANIMATION_HANDLER =DisableAbleCommandHandler("earth",earthanimation)
+dispatcher.add_handler(WNAMES_HANDLER)
 dispatcher.add_handler(LOVEU_HANDLER)
 dispatcher.add_handler(KILL_HANDLER)
 dispatcher.add_handler(LOVE_HANDLER)
@@ -423,5 +484,5 @@ dispatcher.add_handler(CLOCKANIMATION_HANDLER)
 dispatcher.add_handler(BLOCKANIMATION_HANDLER)
 
 __mod_name__ = "Animation"
-__command_list__ = ["love", "hack", "bombs", "moonanimation", "clockanimation", "earthanimation", "blockanimation", "kill", "loveu"]
-__handlers__ = [LOVE_HANDLER, HACK_HANDLER, BOMBS_HANDLER, MOONANIMATION_HANDLER, CLOCKANIMATION_HANDLER, EARTHANIMATION_HANDLER, BLOCKANIMATION_HANDLER, KILL_HANDLER, LOVEU_HANDLER]
+__command_list__ = ["love", "hack", "bombs", "moonanimation", "clockanimation", "earthanimation", "blockanimation", "kill", "loveu", "wnames"]
+__handlers__ = [LOVE_HANDLER, HACK_HANDLER, BOMBS_HANDLER, MOONANIMATION_HANDLER, CLOCKANIMATION_HANDLER, EARTHANIMATION_HANDLER, BLOCKANIMATION_HANDLER, KILL_HANDLER, LOVEU_HANDLER, WNAMES_HANDLER]
