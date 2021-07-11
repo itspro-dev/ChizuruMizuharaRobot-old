@@ -279,7 +279,7 @@ wnames_show = [
               "Bulma",
               "Emilia",
               "Saber",
-              "Balsa",",
+              "Balsa",
               "Sun Seto",
               "Megumi Tadokoro",
               "Umiko Ahagon",
