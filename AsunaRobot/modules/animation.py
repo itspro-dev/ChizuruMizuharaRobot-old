@@ -75,7 +75,7 @@ EDIT_TIMES = 34
 #sleep how many times after each edit in 'wnames' 
 EDIT_SLEEP = 1
 #edit how many times in 'wnames' 
-EDIT_TIMES = 39
+EDIT_TIMES = 40
 
 
 kill_you = [
@@ -438,9 +438,9 @@ def loveu(update: Update, context: CallbackContext):
 @run_async
 def wnames(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
-    msg = update.effective_message.reply_text('Bulma') 
+    msg = update.effective_message.reply_text('❣️') 
     for x in range(EDIT_TIMES):
-        msg.edit_text(wnames_show[x%39])
+        msg.edit_text(wnames_show[x%40])
         time.sleep(EDIT_SLEEP)
     msg.edit_text('Last One iz ☀️Chizuru Mizuhara☀️😄🖤')
 
