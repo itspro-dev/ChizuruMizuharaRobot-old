@@ -287,7 +287,7 @@ wnames_show = [
               "Jeanne D’Arc",
               "Nao Tomori",
               "Lucy Heartfilia",
-              "Uryuu Minene
+              "Uryuu Minene",
               "Ginshuu",
               "Rem",
               "Rukia Kuchiki",
