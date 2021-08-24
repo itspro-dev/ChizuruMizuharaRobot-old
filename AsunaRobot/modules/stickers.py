@@ -1,10 +1,8 @@
 import os
 import math
 import requests
-import cloudscraper
 import urllib.request as urllib
-from PIL import Image, ImageFont, ImageDraw
-import textwrap
+from PIL import Image
 from html import escape
 from bs4 import BeautifulSoup as bs
 
@@ -15,9 +13,6 @@ from telegram.utils.helpers import mention_html
 
 from AsunaRobot import dispatcher
 from AsunaRobot.modules.disable import DisableAbleCommandHandler
-from AsunaRobot.events import register as Cutiepii
-from AsunaRobot import TEMP_DOWNLOAD_DIRECTORY, LOGGER
-from AsunaRobot import telethn as tbot
 
 combot_stickers_url = "https://combot.org/telegram/stickers?q="
 
@@ -135,7 +130,7 @@ def kang(update: Update, context: CallbackContext):
         elif msg.reply_to_message.sticker and msg.reply_to_message.sticker.emoji:
             sticker_emoji = msg.reply_to_message.sticker.emoji
         else:
-            sticker_emoji = "👀"
+            sticker_emoji = "🤔"
 
         if not is_animated:
             try:
@@ -278,13 +273,11 @@ def kang(update: Update, context: CallbackContext):
         try:
             try:
                 urlemoji = msg.text.split(" ")
-                png_sticker = urlemoji[1]           
+                png_sticker = urlemoji[1]
                 sticker_emoji = urlemoji[2]
             except IndexError:
-                sticker_emoji = "🤔"            
-                urllib.urlretrieve(png_sticker, kangsticker)
-            except ValueError:
-                msg.reply_text("invalid emoji")
+                sticker_emoji = "🤔"
+            urllib.urlretrieve(png_sticker, kangsticker)
             im = Image.open(kangsticker)
             maxsize = (512, 512)
             if (im.width and im.height) < 512:
@@ -456,126 +449,17 @@ def makepack_internal(
         msg.reply_text("Failed to create sticker pack. Possibly due to blek mejik.")
 
 
-@Cutiepii(pattern="^/mmf ?(.*)")
-async def handler(event):
-    if event.fwd_from:
-        return
-    if not event.reply_to_msg_id:
-        await event.reply("Reply to an image or a sticker to memeify it Nigga!!")
-        return
-    reply_message = await event.get_reply_message()
-    if not reply_message.media:
-        await event.reply("Provide some Text please")
-        return
-    file = await tbot.download_media(reply_message)
-    msg = await event.reply("Memifying this image! Please wait")
-
-    if "Kittu" in Credit:
-       pass
-
-    else: 
-       await event.reply("this nigga removed credit line from code")
-    text = str(event.pattern_match.group(1)).strip()
-
-    if len(text) < 1:
-        return await msg.reply("You might want to try `/mmf text`")
-    meme = await drawText(file, text)
-    await tbot.send_file(event.chat_id, file=meme, force_document=False)   
-    await msg.delete()    
-    os.remove(meme)
-
-Credit = "This Plugin Made by Kittu (@A_viyu), if you're using this code in your bot. there is no issue but don't remove this line"
-
-# Taken from https://github.com/UsergeTeam/Userge-Plugins/blob/master/plugins/memify.py#L64
-# Maybe replyed to suit the needs of this module
-
-
-async def drawText(image_path, text):
-    img = Image.open(image_path)
-    os.remove(image_path)
-    shadowcolor = "black"
-    i_width, i_height = img.size
-    if os.name == "nt":
-        fnt = "ariel.ttf"
-    else:
-        fnt = "./AsunaRobot/resources/ArmWrestler.ttf"
-    m_font = ImageFont.truetype(fnt, int((70 / 640) * i_width))
-    if ";" in text:
-        upper_text, lower_text = text.split(";")
-    else:
-        upper_text = text
-        lower_text = ''
-    draw = ImageDraw.Draw(img)
-    current_h, pad = 10, 5
-    if upper_text:
-        for u_text in textwrap.wrap(upper_text, width=15):
-            u_width, u_height = draw.textsize(u_text, font=m_font)
-            draw.text(xy=(((i_width - u_width) / 2) - 2, int((current_h / 640)
-                                                             * i_width)), text=u_text, font=m_font, fill=(0, 0, 0))
-            draw.text(xy=(((i_width - u_width) / 2) + 2, int((current_h / 640)
-                                                             * i_width)), text=u_text, font=m_font, fill=(0, 0, 0))
-            draw.text(xy=((i_width - u_width) / 2,
-                          int(((current_h / 640) * i_width)) - 2),
-                      text=u_text,
-                      font=m_font,
-                      fill=(0,
-                            0,
-                            0))
-            draw.text(xy=(((i_width - u_width) / 2),
-                          int(((current_h / 640) * i_width)) + 2),
-                      text=u_text,
-                      font=m_font,
-                      fill=(0,
-                            0,
-                            0))
-
-            draw.text(xy=((i_width - u_width) / 2, int((current_h / 640)
-                                                       * i_width)), text=u_text, font=m_font, fill=(255, 255, 255))
-            current_h += u_height + pad
-    if lower_text:
-        for l_text in textwrap.wrap(lower_text, width=15):
-            u_width, u_height = draw.textsize(l_text, font=m_font)
-            draw.text(
-                xy=(((i_width - u_width) / 2) - 2, i_height -
-                    u_height - int((20 / 640) * i_width)),
-                text=l_text, font=m_font, fill=(0, 0, 0))
-            draw.text(
-                xy=(((i_width - u_width) / 2) + 2, i_height -
-                    u_height - int((20 / 640) * i_width)),
-                text=l_text, font=m_font, fill=(0, 0, 0))
-            draw.text(
-                xy=((i_width - u_width) / 2, (i_height -
-                                              u_height - int((20 / 640) * i_width)) - 2),
-                text=l_text, font=m_font, fill=(0, 0, 0))
-            draw.text(
-                xy=((i_width - u_width) / 2, (i_height -
-                                              u_height - int((20 / 640) * i_width)) + 2),
-                text=l_text, font=m_font, fill=(0, 0, 0))
-
-            draw.text(
-                xy=((i_width - u_width) / 2, i_height -
-                    u_height - int((20 / 640) * i_width)),
-                text=l_text, font=m_font, fill=(255, 255, 255))
-            current_h += u_height + pad
-    image_name = "memify.webp"
-    webp_file = os.path.join(image_name)
-    img.save(webp_file, "webp")
-    return webp_file
-
-
-
 __help__ = """
- • `/stickerid` : reply to a sticker to me to tell you its file ID.
- • `/getsticker` : reply to a sticker to me to upload its raw PNG file.
- • `/kang` : reply to a sticker to add it to your pack.
- • `/mmf` : memefiy any sticker and image.
- • `/stickers` : Find stickers for given term on combot sticker catalogue
+ ❍ /stickerid*:* reply to a sticker to me to tell you its file ID.
+ ❍ /getsticker*:* reply to a sticker to me to upload its raw PNG file.
+ ❍ /kang*:* reply to a sticker to add it to your pack.
+ ❍ /stickers*:* Find stickers for given term on combot sticker catalogue
 """
 
 __mod_name__ = "Stickers"
 STICKERID_HANDLER = DisableAbleCommandHandler("stickerid", stickerid)
 GETSTICKER_HANDLER = DisableAbleCommandHandler("getsticker", getsticker)
-KANG_HANDLER = DisableAbleCommandHandler(["kang", "steal"], kang, admin_ok=True)
+KANG_HANDLER = DisableAbleCommandHandler("kang", kang, admin_ok=True)
 STICKERS_HANDLER = DisableAbleCommandHandler("stickers", cb_sticker)
 
 dispatcher.add_handler(STICKERS_HANDLER)
